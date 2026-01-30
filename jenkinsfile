@@ -12,6 +12,15 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
+                    echo "Remove old container"
+                    docker stop qr-gen-app | true
+                    docker rm qr-gen-app | true
+
+                    echo "Building image"
+                    docker build -t dharanigone/qr-gen-app .
+
+                    echo "Run container"
+                    docker run -d --name qr-gen-app -p 9000:80 dharanigone/qr-gen-app
                 '''
             }
         }
